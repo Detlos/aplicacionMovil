@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:integradora/services/authservice.dart';
 
-class RegistroPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
+  @override
+  _RegisterPageState createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  var email, password, name, lastName, gender, verification, userName;
   TextStyle estilo = TextStyle(color: Colors.white);
   @override
   Widget build(BuildContext context) {
@@ -23,54 +31,82 @@ class RegistroPage extends StatelessWidget {
             ),
             Row(
               children: [
-                Expanded(child: Text('Nombre')),
-                Expanded(child: TextField())
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Expanded(child: Text('Apellido')),
-                Expanded(child: TextField())
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Expanded(child: Text('Usuario')),
-                Expanded(child: TextField())
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Expanded(child: Text('Correo')),
-                Expanded(child: TextField())
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Expanded(child: Text('Genero')),
-                Expanded(child: TextField())
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Expanded(child: Text('Contraseña')),
                 Expanded(
                     child: TextField(
+                  decoration: InputDecoration(labelText: 'Nombre'),
+                  onChanged: (val) {
+                    email = val;
+                  },
+                ))
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Expanded(
+                    child: TextField(
+                  decoration: InputDecoration(labelText: 'Apellido'),
+                  onChanged: (val) {
+                    lastName = val;
+                  },
+                ))
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Expanded(
+                    child: TextField(
+                  decoration: InputDecoration(labelText: 'Username'),
+                  onChanged: (val) {
+                    userName = val;
+                  },
+                ))
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Expanded(
+                    child: TextField(
+                  decoration: InputDecoration(labelText: 'Correo'),
+                  onChanged: (val) {
+                    email = val;
+                  },
+                ))
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Expanded(
+                    child: TextField(
+                  decoration: InputDecoration(labelText: 'Genero'),
+                  onChanged: (val) {
+                    gender = val;
+                  },
+                ))
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Expanded(
+                    child: TextField(
+                  decoration: InputDecoration(labelText: 'Contraseña'),
+                  onChanged: (val) {
+                    password = val;
+                  },
                   obscureText: true,
                 ))
               ],
@@ -80,9 +116,13 @@ class RegistroPage extends StatelessWidget {
             ),
             Row(
               children: [
-                Expanded(child: Text('ConfirmarContra')),
                 Expanded(
                     child: TextField(
+                  decoration:
+                      InputDecoration(labelText: 'Confirmar contraseña'),
+                  onChanged: (val) {
+                    verification = val;
+                  },
                   obscureText: true,
                 ))
               ],
@@ -90,7 +130,39 @@ class RegistroPage extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            RaisedButton(child: Text('Crear cuenta'), onPressed: () {})
+            ElevatedButton(
+                child: Text('Crear cuenta'),
+                onPressed: () {
+                  if (password == verification) {
+                    Map<String, dynamic> data = {
+                      'username': userName,
+                      'email': email,
+                      'password': password,
+                      'nombre': name,
+                      'apellido': lastName,
+                      'genero': gender
+                    };
+                    AuthService().registerUser(data).then((val) {
+                      if (val.data['success']) {
+                        Fluttertoast.showToast(
+                            msg: val.data['msg'],
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            backgroundColor: Colors.green,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      }
+                    });
+                  } else {
+                    Fluttertoast.showToast(
+                        msg: 'Las contrseñas no coinciden',
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        backgroundColor: Colors.green,
+                        textColor: Colors.white,
+                        fontSize: 16.0);
+                  }
+                })
           ],
         ),
       ),

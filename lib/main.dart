@@ -12,11 +12,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: '/',
       getPages: [
         GetPage(name: '/', page: () => PrincipalPage()),
         GetPage(name: '/login', page: () => LoginPage()),
-        GetPage(name: '/registro', page: () => RegistroPage()),
+        GetPage(name: '/registro', page: () => RegisterPage()),
       ],
     );
   }

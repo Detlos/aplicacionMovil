@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:integradora/services/authservice.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  var correo, password, token;
   @override
   Widget build(BuildContext context) {
-    TextStyle estilo = TextStyle(color: Colors.white);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -23,8 +30,13 @@ class LoginPage extends StatelessWidget {
             ),
             Row(
               children: [
-                Expanded(child: Text('Correo')),
-                Expanded(child: TextField())
+                Expanded(
+                    child: TextField(
+                  decoration: InputDecoration(labelText: 'Correo'),
+                  onChanged: (val) {
+                    correo = val;
+                  },
+                ))
               ],
             ),
             SizedBox(
@@ -32,9 +44,12 @@ class LoginPage extends StatelessWidget {
             ),
             Row(
               children: [
-                Expanded(child: Text('Contraseña')),
                 Expanded(
                     child: TextField(
+                  decoration: InputDecoration(labelText: 'Contraseña'),
+                  onChanged: (val) {
+                    password = val;
+                  },
                   obscureText: true,
                 ))
               ],
@@ -42,7 +57,22 @@ class LoginPage extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            RaisedButton(child: Text('Iniciar sesion'), onPressed: () {})
+            ElevatedButton(
+                child: Text('Iniciar sesion'),
+                onPressed: () {
+                  AuthService().login(correo, password).then((val) {
+                    if (val.data['success']) {
+                      token = val.data['token'];
+                      Fluttertoast.showToast(
+                          msg: val.data['msg'],
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          backgroundColor: Colors.green,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    }
+                  });
+                })
           ],
         ),
       ),

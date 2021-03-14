@@ -21,21 +21,24 @@ class PrincipalPage extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                  child: RaisedButton(
-                      color: Colors.blue,
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.blue, // background
+                      ),
                       child: Text(
                         'Registrarse',
                         style: estilo,
                       ),
                       onPressed: () {
-                        Get.to(RegistroPage(), transition: Transition.fade);
+                        Get.to(RegisterPage(), transition: Transition.size);
                       })),
               SizedBox(width: 5),
               Expanded(
-                  child: RaisedButton(
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(primary: Colors.grey),
                       child: Text('Inicia sesion'),
                       onPressed: () {
-                        Get.to(LoginPage(), transition: Transition.fade);
+                        Get.to(LoginPage(), transition: Transition.size);
                       })),
               SizedBox(height: 250)
             ],
