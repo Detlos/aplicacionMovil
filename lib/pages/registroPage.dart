@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:integradora/services/authservice.dart';
+import 'package:flutter/services.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -9,6 +11,8 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   var email, password, name, lastName, gender, verification, userName;
+  List _genero = ["Hombre", "Mujer"];
+  String currentValue = "Hombre";
   TextStyle estilo = TextStyle(color: Colors.white);
   @override
   Widget build(BuildContext context) {
@@ -35,7 +39,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: TextField(
                   decoration: InputDecoration(labelText: 'Nombre'),
                   onChanged: (val) {
-                    email = val;
+                    name = val;
                   },
                 ))
               ],
@@ -62,6 +66,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 Expanded(
                     child: TextField(
                   decoration: InputDecoration(labelText: 'Username'),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp("[a-z A-Z 0-9]")),
+                    LengthLimitingTextInputFormatter(15)
+                  ],
                   onChanged: (val) {
                     userName = val;
                   },
@@ -88,11 +96,26 @@ class _RegisterPageState extends State<RegisterPage> {
             Row(
               children: [
                 Expanded(
-                    child: TextField(
-                  decoration: InputDecoration(labelText: 'Genero'),
-                  onChanged: (val) {
-                    gender = val;
+                    child: DropdownButton(
+                  value: currentValue,
+                  hint: Text("Genero"),
+                  isExpanded: true,
+                  onChanged: (value) {
+                    setState(() {
+                      currentValue = value;
+                      if (currentValue == "Hombre") {
+                        gender = "1";
+                      } else {
+                        gender = "0";
+                      }
+                    });
                   },
+                  items: _genero.map((value) {
+                    return DropdownMenuItem(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
                 ))
               ],
             ),
@@ -144,6 +167,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     };
                     AuthService().registerUser(data).then((val) {
                       if (val.data['success']) {
+                        print("prueba1");
                         Fluttertoast.showToast(
                             msg: val.data['msg'],
                             toastLength: Toast.LENGTH_SHORT,
@@ -158,7 +182,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         msg: 'Las contrseñas no coinciden',
                         toastLength: Toast.LENGTH_SHORT,
                         gravity: ToastGravity.BOTTOM,
-                        backgroundColor: Colors.green,
+                        backgroundColor: Colors.red,
                         textColor: Colors.white,
                         fontSize: 16.0);
                   }

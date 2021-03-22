@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:integradora/pages/registroPage.dart';
 import 'package:integradora/services/authservice.dart';
+import 'package:integradora/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -16,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         backgroundColor: Color(0xff011e30),
         centerTitle: true,
-        title: Text("Inicio de sesion"),
+        title: Text("DETLOS"),
       ),
       body: Container(
         padding: EdgeInsets.all(25),
@@ -57,12 +60,38 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               height: 10,
             ),
+            Container(
+              alignment: Alignment.centerRight,
+              margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+              child: GestureDetector(
+                onTap: () => {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => RegisterPage()))
+                },
+                child: Text(
+                  "Registrarse",
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xff2661fa)),
+                ),
+              ),
+            ),
             ElevatedButton(
                 child: Text('Iniciar sesion'),
                 onPressed: () {
-                  AuthService().login(correo, password).then((val) {
+                  AuthService().login(correo, password).then((val) async {
+                    SharedPreferences sharedPreferences =
+                        await SharedPreferences.getInstance();
+
                     if (val.data['success']) {
-                      token = val.data['token'];
+                      sharedPreferences.setString("token", val.data['token']);
+                      sharedPreferences.setString(
+                          "username", val.data['respuesta']);
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => MainPage()),
+                          (Route<dynamic> route) => false);
                       Fluttertoast.showToast(
                           msg: val.data['msg'],
                           toastLength: Toast.LENGTH_SHORT,
