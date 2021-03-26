@@ -32,6 +32,9 @@ class _DetailState extends State<Detail> {
             print(widget.index.toString().runtimeType);
             var username = sharedPreferences.getString('username');
             databaseHelper.removeRegister(widget.index.toString(), username);
+            for (var i = 0; i < 2; i++) {
+              Navigator.of(context).pop();
+            }
             Navigator.of(context).push(new MaterialPageRoute(
               builder: (BuildContext context) => new CamerasPage(),
             ));

@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:integradora/controllers/databaseHelpers.dart';
 import 'detailCamera.dart';
+
+var nombreUsuario;
 
 class CamerasPage extends StatefulWidget {
   @override
@@ -10,16 +12,17 @@ class CamerasPage extends StatefulWidget {
 }
 
 class _CamerasPageState extends State<CamerasPage> {
+  DataBaseHelper dataB = DataBaseHelper();
   Future<List<dynamic>> getData() async {
     Dio dio = new Dio();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var username = sharedPreferences.getString("username");
+    nombreUsuario = sharedPreferences.getString("username");
+    var data = [];
     var response = await dio.post(
         "https://detlosapi.herokuapp.com/get_hardware",
         data: {'username': username});
-    print(response.data['objeto']);
     Map<String, dynamic> map = response.data['objeto'];
-    var data = [];
     map.forEach((k, v) => data.add(v));
     return data;
   }
@@ -36,6 +39,15 @@ class _CamerasPageState extends State<CamerasPage> {
       appBar: new AppBar(
         title: new Text("Camaras"),
         centerTitle: true,
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xff011e30),
+        onPressed: () => {
+          dataB.addIp(nombreUsuario),
+          Navigator.of(context).pushReplacementNamed('camerasPage')
+        },
+        tooltip: 'Agregar nueva IP',
+        child: Icon(Icons.add),
       ),
       body: new FutureBuilder<List>(
         future: getData(),
@@ -66,7 +78,7 @@ class ItemList extends StatelessWidget {
         return new Container(
           padding: const EdgeInsets.all(10.0),
           child: new GestureDetector(
-            onTap: () => Navigator.of(context).push(
+            onTap: () => Navigator.of(context).pushReplacement(
               new MaterialPageRoute(
                   builder: (BuildContext context) => new Detail(
                         list: list,

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:integradora/pages/camarasPage.dart';
+import 'package:integradora/pages/detailCamera.dart';
 import 'package:integradora/pages/loginPage.dart';
-import 'package:integradora/pages/principalPage.dart';
-import 'package:integradora/pages/registroPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -17,6 +15,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: Color(0xff011e30)),
       home: MainPage(),
+      routes: {
+        "camerasPage": (BuildContext context) => CamerasPage(),
+        "detailCameras": (BuildContext context) => Detail(),
+      },
     );
   }
 }

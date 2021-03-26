@@ -63,6 +63,9 @@ class _EditCameraState extends State<EditCamera> {
                   onPressed: () {
                     databaseHelper.editarCamara(
                         indice.toString(), controllerIp.text.trim());
+                    for (var i = 0; i < 2; i++) {
+                      Navigator.of(context).pop();
+                    }
                     Navigator.of(context).push(new MaterialPageRoute(
                       builder: (BuildContext context) => new CamerasPage(),
                     ));

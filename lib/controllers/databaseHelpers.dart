@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,30 +27,20 @@ class DataBaseHelper {
   }
 
   //function for register products
-  void addDataProducto(String _nameController, String _priceController,
-      String _stockController) async {
+  Future<void> addIp(String username) async {
     final prefs = await SharedPreferences.getInstance();
-    final key = 'token';
-    final value = prefs.get(key) ?? 0;
-
-    // String myUrl = "$serverUrl/api";
-    String myUrl = "http://192.168.1.69:3000/products";
-    final response = await http.post(myUrl, headers: {
-      'Accept': 'application/json'
-    }, body: {
-      "name": "$_nameController",
-      "price": "$_priceController",
-      "stock": "$_stockController"
-    });
-    status = response.body.contains('error');
-
-    var data = json.decode(response.body);
-
-    if (status) {
-      print('data : ${data["error"]}');
-    } else {
-      print('data : ${data["token"]}');
-      _save(data["token"]);
+    String username = prefs.getString('username');
+    try {
+      return await dio.post('https://detlosapi.herokuapp.com/insert_hardware',
+          data: {"username": username});
+    } on DioError catch (e) {
+      Fluttertoast.showToast(
+          msg: e.response.data['msg'],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
     }
   }
 
@@ -87,14 +76,6 @@ class DataBaseHelper {
           textColor: Colors.white,
           fontSize: 16.0);
     }
-  }
-
-  //function save
-  _save(String token) async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'token';
-    final value = token;
-    prefs.setString(key, value);
   }
 
 //function read
