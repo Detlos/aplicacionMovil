@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:integradora/pages/camarasPage.dart';
 import 'package:integradora/pages/detailCamera.dart';
 import 'package:integradora/pages/loginPage.dart';
+import 'package:integradora/pages/streamingPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -52,13 +53,110 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Integradora",
+          "Opciones Principales",
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
       ),
-      body: Center(
-        child: Text("Main Page"),
+      body: Container(
+        height: 1000,
+        margin: const EdgeInsets.all(10.0),
+        child: Column(children: [
+          Container(
+            height: 250,
+            child: Card(
+              elevation: 30,
+              clipBehavior: Clip.antiAlias,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0)),
+              color: Colors.grey[200],
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    color: Colors.grey[900],
+                    width: 10,
+                  ),
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () =>
+                          Navigator.of(context).push(new MaterialPageRoute(
+                        builder: (BuildContext context) => StreamingPage(),
+                      )),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          new ListTile(
+                            contentPadding: EdgeInsets.only(left: 70),
+                            title: new Text(
+                              'LiveCams',
+                              style: TextStyle(
+                                  fontSize: 25, color: Colors.grey[900]),
+                            ),
+                            leading: new Icon(
+                              Icons.filter_center_focus,
+                              color: Colors.grey[900],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 25,
+          ),
+          Container(
+              height: 254,
+              child: new Card(
+                elevation: 30,
+                clipBehavior: Clip.antiAlias,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0)),
+                color: Colors.grey[200],
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      color: Colors.grey[900],
+                      width: 10,
+                    ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            new ListTile(
+                              contentPadding: EdgeInsets.all(80),
+                              title: new Text(
+                                'Galeria',
+                                style: TextStyle(
+                                    fontSize: 25, color: Colors.grey[900]),
+                              ),
+                              leading: new Icon(
+                                Icons.crop_original,
+                                color: Colors.grey[900],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )),
+        ]),
       ),
       drawer: Drawer(
         child: new ListView(
@@ -66,7 +164,7 @@ class _MainPageState extends State<MainPage> {
             new UserAccountsDrawerHeader(
               accountName: new Text("DETLOS USER"),
               accountEmail:
-                  username != null ? Text('$username') : Text("NOUSERFOUND"),
+                  username != null ? Text('$username') : Text("NO USER FOUND"),
             ),
             new ListTile(
               title: new Text("Camaras"),
@@ -74,13 +172,6 @@ class _MainPageState extends State<MainPage> {
               onTap: () => Navigator.of(context).push(new MaterialPageRoute(
                 builder: (BuildContext context) => CamerasPage(),
               )),
-            ),
-            new ListTile(
-              title: new Text("Perfil"),
-              trailing: new Icon(Icons.account_box),
-              // onTap: () => Navigator.of(context).push(new MaterialPageRoute(
-              //   builder: (BuildContext context) => AddDataProduct(),
-              // )),
             ),
             new ListTile(
               title: new Text("Cerrar sesion"),

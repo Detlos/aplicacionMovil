@@ -13,6 +13,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_vlc_player:
+  http: 
 
   dio: 3.0.10
   fluttertoast:
