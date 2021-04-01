@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:integradora/pages/camarasPage.dart';
 import 'package:integradora/pages/detailCamera.dart';
+import 'package:integradora/pages/galleryPage.dart';
 import 'package:integradora/pages/loginPage.dart';
 import 'package:integradora/pages/streamingPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -133,6 +134,10 @@ class _MainPageState extends State<MainPage> {
                     ),
                     Expanded(
                       child: GestureDetector(
+                        onTap: () =>
+                            Navigator.of(context).push(new MaterialPageRoute(
+                          builder: (BuildContext context) => GalleryPage(),
+                        )),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
