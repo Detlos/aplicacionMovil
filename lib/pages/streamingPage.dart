@@ -21,7 +21,7 @@ class _StreamingPageState extends State<StreamingPage> {
     nombreUsuario = sharedPreferences.getString("username");
     var data = [];
     var response = await dio.post(
-        "https://detlosapi.herokuapp.com/get_hardware",
+        "https://img-detlos.herokuapp.com/get_hardware",
         data: {'username': username});
     Map<String, dynamic> map = response.data['objeto'];
     map.forEach((k, v) => data.add(v));

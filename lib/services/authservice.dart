@@ -7,9 +7,10 @@ class AuthService {
 
   login(correo, password) async {
     try {
-      return await dio.post('https://detlosapi.herokuapp.com/login',
+      return await dio.post('https://img-detlos.herokuapp.com/login',
           data: {"correo": correo, "password": password});
     } on DioError catch (e) {
+      print(e);
       Fluttertoast.showToast(
           msg: e.response.data['msg'],
           toastLength: Toast.LENGTH_SHORT,
@@ -22,7 +23,7 @@ class AuthService {
 
   registerUser(data) async {
     try {
-      return await dio.post('https://detlosapi.herokuapp.com/register',
+      return await dio.post('https://img-detlos.herokuapp.com/register',
           data: data);
     } on DioError catch (e) {
       Fluttertoast.showToast(

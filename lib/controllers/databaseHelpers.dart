@@ -31,7 +31,7 @@ class DataBaseHelper {
     final prefs = await SharedPreferences.getInstance();
     String username = prefs.getString('username');
     try {
-      return await dio.post('https://detlosapi.herokuapp.com/insert_hardware',
+      return await dio.post('https://img-detlos.herokuapp.com/insert_hardware',
           data: {"username": username});
     } on DioError catch (e) {
       Fluttertoast.showToast(
@@ -49,7 +49,7 @@ class DataBaseHelper {
     final prefs = await SharedPreferences.getInstance();
     String username = prefs.getString('username');
     try {
-      return await dio.put('https://detlosapi.herokuapp.com/edit_hardware',
+      return await dio.put('https://img-detlos.herokuapp.com/edit_hardware',
           data: {"username": username, "ip": ip, "indice": indice});
     } on DioError catch (e) {
       Fluttertoast.showToast(
@@ -65,7 +65,7 @@ class DataBaseHelper {
   //function for delete
   Future<void> removeRegister(String indice, String username) async {
     try {
-      return await dio.put('https://detlosapi.herokuapp.com/delete_hardware',
+      return await dio.put('https://img-detlos.herokuapp.com/delete_hardware',
           data: {"indice": indice, "username": username});
     } on DioError catch (e) {
       Fluttertoast.showToast(

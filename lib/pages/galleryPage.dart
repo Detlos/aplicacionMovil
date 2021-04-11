@@ -19,7 +19,7 @@ class _GalleryPageState extends State<GalleryPage> {
     nombreUsuario = sharedPreferences.getString("username");
     var data = [];
     var response = await dio.post(
-        "https://detlosapi.herokuapp.com/obtenerImagenes2",
+        "https://img-detlos.herokuapp.com/obtenerImagenes2",
         data: {'username': username});
     Map<String, dynamic> map = response.data;
     map.forEach((k, v) => data.add(v));
