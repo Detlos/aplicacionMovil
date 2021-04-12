@@ -9,9 +9,15 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  var email, password, name, lastName, gender, verification, userName;
-  List _genero = ["Hombre", "Mujer"];
-  String currentValue = "Hombre";
+  var email,
+      password,
+      name,
+      lastName,
+      gender,
+      verification,
+      userName; // variables con los valores para el registro
+  List _genero = ["Hombre", "Mujer"]; // valores para el option list
+  String currentValue = "Hombre"; // valor por defecto del option list
   TextStyle estilo = TextStyle(color: Colors.white);
   @override
   Widget build(BuildContext context) {
@@ -36,6 +42,7 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 Expanded(
                     child: TextField(
+                  // formulario para el nombre
                   decoration: InputDecoration(labelText: 'Nombre'),
                   onChanged: (val) {
                     name = val;
@@ -50,6 +57,7 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 Expanded(
                     child: TextField(
+                  // formulario para el apellido
                   decoration: InputDecoration(labelText: 'Apellido'),
                   onChanged: (val) {
                     lastName = val;
@@ -64,6 +72,7 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 Expanded(
                     child: TextField(
+                  // formulario para el nombre de usuario
                   decoration: InputDecoration(labelText: 'Username'),
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp("[a-z A-Z 0-9]")),
@@ -82,6 +91,7 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 Expanded(
                     child: TextField(
+                  // formulario para el correo
                   decoration: InputDecoration(labelText: 'Correo'),
                   onChanged: (val) {
                     email = val;
@@ -96,23 +106,27 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 Expanded(
                     child: DropdownButton(
-                  value: currentValue,
-                  hint: Text("Genero"),
-                  isExpanded: true,
+                  // formulario de opciones para el genero
+                  value: currentValue, // valor por defecto
+                  hint: Text("Genero"), // muestra por defecto Genero
+                  isExpanded: true, // expande el formulario
                   onChanged: (value) {
                     setState(() {
-                      currentValue = value;
+                      currentValue = value; // current value sera igual a value
                       if (currentValue == "Hombre") {
-                        gender = "1";
+                        gender =
+                            "1"; // si el valor actual es igual a Hombre devuelve 1
                       } else {
-                        gender = "0";
+                        gender = "0"; //si no devuelve 0
                       }
                     });
                   },
                   items: _genero.map((value) {
+                    // mapea los valores
                     return DropdownMenuItem(
-                      value: value,
-                      child: Text(value),
+                      // devuelve un dropdownmenu
+                      value: value, // value sera igual al value seleccionado
+                      child: Text(value), //mostrara el value
                     );
                   }).toList(),
                 ))
@@ -125,6 +139,7 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 Expanded(
                     child: TextField(
+                  // formulario para la contraseña
                   decoration: InputDecoration(labelText: 'Contraseña'),
                   onChanged: (val) {
                     password = val;
@@ -140,6 +155,7 @@ class _RegisterPageState extends State<RegisterPage> {
               children: [
                 Expanded(
                     child: TextField(
+                  // formulario para la confirmacion de la contraseña
                   decoration:
                       InputDecoration(labelText: 'Confirmar contraseña'),
                   onChanged: (val) {
@@ -153,9 +169,10 @@ class _RegisterPageState extends State<RegisterPage> {
               height: 10,
             ),
             ElevatedButton(
-                child: Text('Crear cuenta'),
+                child: Text('Crear cuenta'), // boton para crear la cuenta
                 onPressed: () {
                   if (password == verification) {
+                    // si los contraseñas son correctas mapea los valores en un diccionario
                     Map<String, dynamic> data = {
                       'username': userName,
                       'email': email,
@@ -165,8 +182,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       'genero': gender
                     };
                     AuthService().registerUser(data).then((val) {
+                      //funcion para la peticion de registro
                       if (val.data['success']) {
-                        print("prueba1");
+                        //si se lleva a cabo con exito imprime el mensaje
                         Fluttertoast.showToast(
                             msg: val.data['msg'],
                             toastLength: Toast.LENGTH_SHORT,
@@ -178,6 +196,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     });
                   } else {
                     Fluttertoast.showToast(
+                        // si las contraseñas no coinciden imprime que un mensaje indicandolo
                         msg: 'Las contrseñas no coinciden',
                         toastLength: Toast.LENGTH_SHORT,
                         gravity: ToastGravity.BOTTOM,

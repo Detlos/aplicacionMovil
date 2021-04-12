@@ -11,7 +11,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  var correo, password, token;
+  var correo,
+      password,
+      token; //variables que almacenaran informacion de los formularios
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Expanded(
                     child: TextField(
+                  // formulario para el correo
                   decoration: InputDecoration(labelText: 'Correo'),
                   onChanged: (val) {
                     correo = val;
@@ -49,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Expanded(
                     child: TextField(
+                  // formulario para la contraseña
                   decoration: InputDecoration(labelText: 'Contraseña'),
                   onChanged: (val) {
                     password = val;
@@ -65,10 +69,12 @@ class _LoginPageState extends State<LoginPage> {
               margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
               child: GestureDetector(
                 onTap: () => {
-                  Navigator.push(context,
+                  Navigator.push(
+                      context, // nos lleva a la pagina de registro
                       MaterialPageRoute(builder: (context) => RegisterPage()))
                 },
                 child: Text(
+                  //ruta para la pagina de registro
                   "Registrarse",
                   style: TextStyle(
                       fontSize: 12,
@@ -78,21 +84,26 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             ElevatedButton(
-                child: Text('Iniciar sesion'),
+                child: Text('Iniciar sesion'), // boton para el inicio de sesion
                 onPressed: () {
                   AuthService().login(correo, password).then((val) async {
-                    SharedPreferences sharedPreferences =
-                        await SharedPreferences.getInstance();
+                    // funcion para el inicio de sesion
+                    SharedPreferences sharedPreferences = await SharedPreferences
+                        .getInstance(); // objeto que almacena la sesion con el token
 
                     if (val.data['success']) {
-                      sharedPreferences.setString("token", val.data['token']);
+                      // si nos regresa un true este campo
                       sharedPreferences.setString(
-                          "username", val.data['respuesta']);
+                          "token", val.data['token']); // se almacena el token
+                      sharedPreferences.setString("username",
+                          val.data['respuesta']); // se almacena el usuario
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                              builder: (BuildContext context) => MainPage()),
+                              builder: (BuildContext context) =>
+                                  MainPage()), //nos lleva a la pagina principal
                           (Route<dynamic> route) => false);
                       Fluttertoast.showToast(
+                          //imprime el mensaje que nos retorna la peticion y la imprime en una flutter toast
                           msg: val.data['msg'],
                           toastLength: Toast.LENGTH_SHORT,
                           gravity: ToastGravity.BOTTOM,

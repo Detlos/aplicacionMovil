@@ -5,8 +5,8 @@ import 'package:integradora/pages/editCamera.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Detail extends StatefulWidget {
-  List list;
-  int index;
+  List list; // lista
+  int index; // indice de la lista
   Detail({this.index, this.list});
 
   @override
@@ -14,26 +14,31 @@ class Detail extends StatefulWidget {
 }
 
 class _DetailState extends State<Detail> {
-  DataBaseHelper databaseHelper = new DataBaseHelper();
+  DataBaseHelper databaseHelper = new DataBaseHelper(); // objeto databasehelper
   //create function delete
   void confirm() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    SharedPreferences sharedPreferences = await SharedPreferences
+        .getInstance(); //objeto con valores del usuarioq ue inicio sesion
     AlertDialog alertDialog = new AlertDialog(
-      content:
-          new Text("Esta seguro de eliminar '${widget.list[widget.index]}'"),
+      //objeto del tipo alertdialog
+      content: new Text(
+          "Esta seguro de eliminar '${widget.list[widget.index]}'"), // muestra una caja de dialogo con ese mensaje
       actions: <Widget>[
         new RaisedButton(
           child: new Text(
-            "Si, remover!",
+            "Si, remover!", // boton de confirmacion
             style: new TextStyle(color: Colors.black),
           ),
           color: Colors.red,
           onPressed: () {
             print(widget.index.toString().runtimeType);
-            var username = sharedPreferences.getString('username');
-            databaseHelper.removeRegister(widget.index.toString(), username);
+            var username =
+                sharedPreferences.getString('username'); // almacena el usuario
+            databaseHelper.removeRegister(widget.index.toString(),
+                username); // funcion que remeuve el registro
             for (var i = 0; i < 2; i++) {
-              Navigator.of(context).pop();
+              Navigator.of(context)
+                  .pop(); // itera la cantidad de paginas anteriores una vez eliminado el registro
             }
             Navigator.of(context).push(new MaterialPageRoute(
               builder: (BuildContext context) => new CamerasPage(),
@@ -41,15 +46,18 @@ class _DetailState extends State<Detail> {
           },
         ),
         new RaisedButton(
-          child:
-              new Text("Cancelar", style: new TextStyle(color: Colors.black)),
+          child: new Text("Cancelar",
+              style: new TextStyle(
+                  color: Colors
+                      .black)), //boton para cancelar el eliminar un registro
           color: Colors.green,
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.pop(context), // remueve la caja de dialogo
         ),
       ],
     );
 
     showDialog(
+      //funcion de alert dialog
       context: context,
       builder: (BuildContext context) {
         return alertDialog;
@@ -83,13 +91,14 @@ class _DetailState extends State<Detail> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     new RaisedButton(
-                      child: new Text("Edit"),
+                      child: new Text("Edit"), // boton para editar el url
                       color: Colors.blueAccent,
                       shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(30.0)),
                       onPressed: () =>
                           Navigator.of(context).push(new MaterialPageRoute(
                         builder: (BuildContext context) => new EditCamera(
+                          // una vez presionado nos lleva a la paigna de edicion de la url con el inidice como parametro
                           list: widget.list,
                           index: widget.index,
                         ),
@@ -101,7 +110,8 @@ class _DetailState extends State<Detail> {
                       color: Colors.redAccent,
                       shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(30.0)),
-                      onPressed: () => confirm(),
+                      onPressed: () =>
+                          confirm(), //una vez presionado llama ala funcion para elmiminar el registro
                     ),
                   ],
                 )

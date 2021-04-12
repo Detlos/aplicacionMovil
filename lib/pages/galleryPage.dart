@@ -13,9 +13,11 @@ class GalleryPage extends StatefulWidget {
 class _GalleryPageState extends State<GalleryPage> {
   DataBaseHelper dataB = DataBaseHelper();
   Future<List<dynamic>> getData() async {
+    // funcion para al peticion de elementos de la galeria
     Dio dio = new Dio();
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var username = sharedPreferences.getString("username");
+    var username =
+        sharedPreferences.getString("username"); // username del usuario
     nombreUsuario = sharedPreferences.getString("username");
     var data = [];
     var response = await dio.post(
@@ -63,38 +65,51 @@ class ItemList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new ListView.builder(
-      itemCount: list == null ? 0 : list.length,
+      itemCount: list == null
+          ? 0
+          : list
+              .length, // si list es diferente a null, saca el tama;o de la lista de elementos o si no es igual a 0
       itemBuilder: (context, i) {
+        // crea una lista de elementos
         return new Container(
-          height: 150,
+          height: 150, //altura
           child: Card(
-            elevation: 10,
+            //targeta
+            elevation: 10, // efecto de elevado
             color: Colors.white,
             child: Row(
+              //grupo de targetas
               children: [
+                //hijos para la lista
                 Expanded(
+                  // expande la tarjeta
                   flex: 33,
                   child: Image.network(
+                    // coloca las urls de las imagenes traidas de internet
                     list[i]['imagen'],
                   ),
                 ),
                 Expanded(
-                  flex: 28,
+                  flex: 28, // le coloca un flex de 28 a la imagen
                   child: Column(
+                    // coloca los elementos dentro de la descripcion en columna
                     children: [
                       Expanded(
-                          flex: 25,
+                          //expande el apartado de la descripcion
+                          flex: 25, // flex e 25 a la descripcion
                           child: Column(
                             children: [
                               ListTile(
                                 title: new Text(
-                                  'Capturado el:',
+                                  'Capturado el:', // titulo de la descripcion
                                   style: new TextStyle(
                                       fontSize: 14.0,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 subtitle: new Column(children: <Widget>[
-                                  new Text(list[i]['fecha'],
+                                  new Text(
+                                      list[i][
+                                          'fecha'], // subtitulo con informaicon de la captura
                                       style: new TextStyle(
                                           fontSize: 13.0,
                                           fontWeight: FontWeight.normal)),
