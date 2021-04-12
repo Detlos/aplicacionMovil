@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "camerasPage": (BuildContext context) => CamerasPage(),
         "detailCameras": (BuildContext context) => Detail(),
+        "liveCams": (BuildContext context) => StreamingPage(),
       },
     );
   }
@@ -54,7 +55,7 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Opciones Principales",
+          "Pagina de Inicio",
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,

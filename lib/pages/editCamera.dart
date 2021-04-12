@@ -43,11 +43,11 @@ class _EditCameraState extends State<EditCamera> {
                   title: new TextFormField(
                     controller: controllerIp,
                     validator: (value) {
-                      if (value.isEmpty) return "IP";
+                      if (value.isEmpty) return "Link";
                     },
                     decoration: new InputDecoration(
-                      hintText: "IP",
-                      labelText: "IP",
+                      hintText: "Link",
+                      labelText: "Link",
                     ),
                   ),
                 ),

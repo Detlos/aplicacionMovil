@@ -9,15 +9,29 @@ class AuthService {
     try {
       return await dio.post('https://img-detlos.herokuapp.com/login',
           data: {"correo": correo, "password": password});
-    } on DioError catch (e) {
-      print(e);
-      Fluttertoast.showToast(
-          msg: e.response.data['msg'],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
+    } catch (e) {
+      if (e is DioError) {
+        //This is the custom message coming from the backend
+        Fluttertoast.showToast(
+            msg: e.response.data['msg'],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      } else {
+        throw Exception("Error");
+      }
+      // on DioError catch (e) {
+      //   print(e);
+      //   Fluttertoast.showToast(
+      //       msg: e.response.data['msg'],
+      //       toastLength: Toast.LENGTH_SHORT,
+      //       gravity: ToastGravity.BOTTOM,
+      //       backgroundColor: Colors.red,
+      //       textColor: Colors.white,
+      //       fontSize: 16.0);
+      // }
     }
   }
 

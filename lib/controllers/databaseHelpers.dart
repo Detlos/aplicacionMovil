@@ -9,22 +9,7 @@ class DataBaseHelper {
   var status;
   var token;
   Dio dio = new Dio();
-  String serverUrlproducts = "http://192.168.1.69:3000/products";
-
   //funciton getData
-  Future<List> getData() async {
-    final prefs = await SharedPreferences.getInstance();
-    final key = 'token';
-    final value = prefs.get(key) ?? 0;
-
-    String myUrl = "$serverUrlproducts";
-    http.Response response = await http.get(myUrl, headers: {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $value'
-    });
-    return json.decode(response.body);
-    // print(response.body);
-  }
 
   //function for register products
   Future<void> addIp(String username) async {

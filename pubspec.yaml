@@ -16,7 +16,7 @@ dependencies:
   flutter_vlc_player:
   http: 
 
-  dio: 3.0.10
+  dio: ^4.0.0
   fluttertoast:
 
 

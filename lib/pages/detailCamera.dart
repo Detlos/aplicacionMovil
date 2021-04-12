@@ -20,7 +20,7 @@ class _DetailState extends State<Detail> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     AlertDialog alertDialog = new AlertDialog(
       content:
-          new Text("Esta seguto de eliminar '${widget.list[widget.index]}'"),
+          new Text("Esta seguro de eliminar '${widget.list[widget.index]}'"),
       actions: <Widget>[
         new RaisedButton(
           child: new Text(
